@@ -1,0 +1,58 @@
+<%if user_signed_in? %>
+
+<%content_for :title do%>
+  Diet Meter &ndash; <%= DateTime.now.to_s(:date) %>
+<%end%>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Meal type</th>
+      <th>Calories</th>
+      <th>Fats</th>
+      <th>Proteins</th>
+      <th>Carbohydrates</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @entries.each do |entry| %>
+      <tr>
+        <% if entry.user == current_user %>
+        <td><%= entry.meal_type %></td>
+        <td><%= entry.calories %></td>
+        <td><%= entry.fats %></td>
+        <td><%= entry.proteins %></td>
+        <td><%= entry.carbohydrates %></td>
+        <td>Logged: <%= time_ago_in_words(entry.created_at) %> ago</td>
+        <td><%= link_to 'Show', entry %></td>
+        <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
+        <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%end%>
+      </tr>
+    <% end %>
+        <td><strong>Day summary</strong></td>
+        <td><%= @entries.pluck(:calories).sum %> kcal</td>
+        <td><%= @entries.pluck(:fats).sum %>g</td>
+        <td><%= @entries.pluck(:proteins).sum  %>g</td>
+        <td><%= @entries.pluck(:carbohydrates).sum  %>g</td>
+  </tbody>
+</table>
+
+<br>
+
+<center>Add another meal: </center>
+<br></br>
+<%= render 'entries/form',entry: @entry1%>
+<br></br>
+<div class="">
+<button class="btn btn-light">  <%= link_to 'View all entries', archives_index_path %></button>
+</div>
+
+<%else%>
+
+  <%=render 'entries/welcome' %>
+
+<%end%>

@@ -1,0 +1,69 @@
+
+
+<div class="card-body", style="text-align:center">
+<button type="button" class="btn btn-primary btn-circle btn-xl">
+  <%= link_to 'Mo', archives_weeks_path(@entry, :beg=> Date.today.monday.midnight, :end=> Date.today.monday.midnight+1.day), {:style=>'color:#FFFFFF;', :class => "css_class"}  %>
+</button>
+
+<button type="button" class="btn btn-primary btn-circle btn-xl">
+  <%= link_to 'Tu', archives_weeks_path(@entry, :beg=> Date.today.monday.midnight+1.day, :end=> Date.today.monday.midnight+2.day), {:style=>'color:#FFFFFF;', :class => "css_class"}  %>
+</button>
+
+<button type="button" class="btn btn-primary btn-circle btn-xl">
+  <%= link_to 'We', archives_weeks_path(@entry, :beg=> Date.today.monday.midnight+2.day, :end=> Date.today.monday.midnight+3.day), {:style=>'color:#FFFFFF;', :class => "css_class"}  %>
+</button>
+
+<button type="button" class="btn btn-primary btn-circle btn-xl">
+  <%= link_to 'Th', archives_weeks_path(@entry, :beg=> Date.today.monday.midnight+3.day, :end=> Date.today.monday.midnight+4.day), {:style=>'color:#FFFFFF;', :class => "css_class"}  %>
+</button>
+
+<button type="button" class="btn btn-primary btn-circle btn-xl">
+  <%= link_to 'Fr', archives_weeks_path(@entry, :beg=> Date.today.monday.midnight+4.day, :end=> Date.today.monday.midnight+5.day), {:style=>'color:#FFFFFF;', :class => "css_class"}  %>
+</button>
+
+<button type="button" class="btn btn-primary btn-circle btn-xl">
+  <%= link_to 'Sa', archives_weeks_path(@entry, :beg=> Date.today.monday.midnight+5.day, :end=> Date.today.monday.midnight+6.day), {:style=>'color:#FFFFFF;', :class => "css_class"}  %>
+</button>
+
+<button type="button" class="btn btn-primary btn-circle btn-xl">
+  <%= link_to 'Su', archives_weeks_path(@entry, :beg=> Date.today.monday.midnight+6.day, :end=> Date.today.monday.midnight+7.day), {:style=>'color:#FFFFFF;', :class => "css_class"}  %>
+</button>
+</div>
+<div class="card-body", style="text-align:center">
+  <%=@view_date.to_date  %>
+
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Meal type</th>
+      <th>Calories</th>
+      <th>Fats</th>
+      <th>Proteins</th>
+      <th>Carbohydrates</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @entries.each do |entry| %>
+      <tr>
+        <td><%= entry.meal_type %></td>
+        <td><%= entry.calories %></td>
+        <td><%= entry.fats %></td>
+        <td><%= entry.proteins %></td>
+        <td><%= entry.carbohydrates %></td>
+        <td>Logged: <%= time_ago_in_words(entry.created_at) %> ago</td>
+        <td><%= link_to 'Show', entry %></td>
+        <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
+        <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+        <td><strong>Day summary</strong></td>
+        <td><%= @entries.pluck(:calories).sum %> kcal</td>
+        <td><%= @entries.pluck(:fats).sum %>g</td>
+        <td><%= @entries.pluck(:proteins).sum  %>g</td>
+        <td><%= @entries.pluck(:carbohydrates).sum  %>g</td>
+  </tbody>
+</table>

@@ -1,0 +1,31 @@
+
+<div class="card text-center" style="width: 18rem; justify-content: space-between;">
+  <div class="card-body">
+    <h5 class="card-title"><%= @entry.meal_type %></h5>
+
+    <p class="card-text">
+      <p>
+        <strong>Calories:</strong>
+        <%= @entry.calories %>
+      </p>
+
+      <p>
+        <strong>Fats:</strong>
+        <%= @entry.fats %>
+      </p>
+
+      <p>
+        <strong>Proteins:</strong>
+        <%= @entry.proteins %>
+      </p>
+
+      <p>
+        <strong>Carbohydrates:</strong>
+        <%= @entry.carbohydrates %>
+      </p>
+
+    </p>
+    <a> <%= link_to 'Edit', edit_entry_path(@entry) %></a>
+    <a><%= link_to 'Back', entries_path %></a>
+  </div>
+</div>

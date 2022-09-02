@@ -1,0 +1,47 @@
+
+  <div class="">
+    <% @entries.each do |day, entries| %>
+    <%= entries.first.created_at.to_date%>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Meal type</th>
+          <th>Calories</th>
+          <th>Fats</th>
+          <th>Proteins</th>
+          <th>Carbohydrates</th>
+
+          <th colspan="3"></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% entries.each do |entry| %>
+
+          <tr>
+            <td><%= entry.meal_type %></td>
+            <td><%= entry.calories %> kcal</td>
+            <td><%= entry.fats %>g</td>
+            <td><%= entry.proteins %>g</td>
+            <td><%= entry.carbohydrates %>g</td>
+
+            <td>Logged: <%= time_ago_in_words(entry.created_at) %> ago</td>
+            <td><%= link_to 'Show', entry %></td>
+            <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
+            <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+
+        <% end %>
+          <td><strong>Summary</strong></td>
+
+          <td><%= entries.pluck(:calories).sum %> kcal</td>
+          <td><%= entries.pluck(:fats).sum %>g</td>
+          <td><%= entries.pluck(:proteins).sum  %>g</td>
+          <td><%= entries.pluck(:carbohydrates).sum  %>g</td>
+      </tbody>
+    </table>
+    <%end%>
+  </div>
+  <br></br>
+
+<%=link_to 'Back to today', entries_path%>
