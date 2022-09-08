@@ -7,4 +7,6 @@ class Entry < ApplicationRecord
   end
 
   belongs_to :user
+  has_one :photo
+  accepts_nested_attributes_for :photo
 end
