@@ -1,15 +1,12 @@
 require "rails_helper"
 
 RSpec.describe EntriesController do
-  include Warden::Test::Helpers
-  include Devise::Test::ControllerHelpers
   let!(:user){ create(:user) }
   let!(:user2){ create(:user) }
   let!(:entry1){ create(:entry, created_at: DateTime.now - 1.hour, user_id: user.id) }
   let!(:entry2){ create(:entry, created_at: DateTime.now - 2.days, user_id: user.id) }
   let!(:photo){ create(:photo) }
   let!(:entry_params){ { meal_type: 'jedzonko', calories: 300, proteins: 20, carbohydrates: 30, fats: 32, photo: { title: '', image: '' } } }
-
 
   describe 'GET #index' do
     subject { get :index }
@@ -20,8 +17,8 @@ RSpec.describe EntriesController do
         expect(assigns(:entries)).not_to contain_exactly(entry1)
       end
 
-      it 'should redirect to log in page' do
-        expect(subject).to redirect_to(new_user_session_path)
+      it 'should render welcome view' do
+        expect(subject).to render_template('index')
       end
     end
 

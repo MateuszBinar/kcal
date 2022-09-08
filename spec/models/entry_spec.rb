@@ -18,6 +18,7 @@ RSpec.describe Entry, type: :model do
   context "#day" do
     let(:user){ create(:user) }
     let(:entry){ create(:entry, user: user, created_at: 'Wed, 07 Sep 2022 00:00:00 CEST +02:00') }
-    it { expect(entry.day).to match('Sep  7, 2022') } 
+
+    it { expect(entry.day).to match('Sep 7, 2022') } 
   end
 end
