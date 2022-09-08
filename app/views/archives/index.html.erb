@@ -29,6 +29,7 @@
             <td><%= link_to 'Show', entry %></td>
             <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
             <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td><%= image_tag entry.photo.image_url, :style => "max-height: 40px; max-width: 60px" if entry.photo && entry.photo.image_data %></td>
           </tr>
 
         <% end %>

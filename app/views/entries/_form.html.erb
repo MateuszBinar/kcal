@@ -6,22 +6,22 @@
       <% form.label :meal_type %>
       <%= form.text_field :meal_type , class: "form-control", placeholder: "meal type"%>
     </div>
-    <br></br>
+    <br>
     <div class="col">
       <% form.label :calories %>
       <%= form.number_field :calories , class: "form-control", placeholder: "calories"%>
     </div>
-    <br></br>
+    <br>
     <div class="col">
       <% form.label :fats %>
       <%= form.number_field :fats , class: "form-control", placeholder: "fats"%>
     </div>
-    <br></br>
+    <br>
     <div class="col">
       <% form.label :proteins %>
       <%= form.number_field :proteins , class: "form-control", placeholder: "proteins"%>
     </div>
-    <br></br>
+    <br>
     <div class="col">
       <% form.label :carbohydrates %>
       <%= form.number_field :carbohydrates , class: "form-control", placeholder: "carbohydrates"%>
@@ -33,7 +33,15 @@
     </div>
 
   </div>
-  <br></br>
+
+  <%= form.fields_for :photo, Photo.new do |a| %>
+
+    <div class="field" style="margin-top: 20px;">
+      <%= a.file_field :image %>
+    </div>
+  <% end %>
+
+  <br>
 
   <div class="btn btn-light">
     <%= form.submit %>
