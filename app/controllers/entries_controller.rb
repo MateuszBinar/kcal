@@ -1,23 +1,24 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
     @entries = Entry.where("created_at >= ? AND user_id = ?", Date.today, current_user)
+    @entry = current_user.entries.build
   end
 
   def show
   end
 
   def new
-    @friend = current_user.entries.build
+    @entry = current_user.entries.build
   end
 
   def edit
   end
 
-  def create
+  def create  
     @entry = current_user.entries.build(entry_params)
     respond_to do |format|
       if @entry.save
@@ -51,17 +52,18 @@ class EntriesController < ApplicationController
     end
   end
 
-def correct_user
-  @entry = current_user.entries.find_by(id: params[:id])
-  redirect_to entries_path, notice: "Not authorized to edit this entry" if @friend.nil?
-end
+  def correct_user
+    @entry = current_user.entries.find_by(id: params[:id])
+    redirect_to entries_path, notice: "Not authorized to edit this entry" if @entry.nil?
+  end
 
   private
-    def set_entry
-      @entry = Entry.find(params[:id])
-    end
 
-    def entry_params
-      params.permit(:meal_type, :calories, :fats, :proteins, :carbohydrates, :user_id)
-    end
+  def set_entry
+    @entry = Entry.find(params[:id])
+  end
+
+  def entry_params
+    params.require(:entry).permit(:meal_type, :calories, :fats, :proteins, :carbohydrates, :user_id, photo_attributes: [:image, :title])
+  end
 end
