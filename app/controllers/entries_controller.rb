@@ -1,6 +1,6 @@
 class EntriesController < ApplicationController
   before_action :set_entry, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: [:index]
   before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
@@ -11,7 +11,8 @@ class EntriesController < ApplicationController
   end
 
   def new
-    @friend = current_user.entries.build
+    @entry = current_user.entries.build
+    @entry.photos.build
   end
 
   def edit
@@ -21,6 +22,7 @@ class EntriesController < ApplicationController
     @entry = current_user.entries.build(entry_params)
     respond_to do |format|
       if @entry.save
+        @photo = @entry.create_photo(photo_params)
         format.html { redirect_to entries_path, notice: "Entry was successfully created." }
         format.json { render :show, status: :created, location: @entry }
       else
@@ -51,17 +53,22 @@ class EntriesController < ApplicationController
     end
   end
 
-def correct_user
-  @entry = current_user.entries.find_by(id: params[:id])
-  redirect_to entries_path, notice: "Not authorized to edit this entry" if @friend.nil?
-end
+  def correct_user
+    @entry = current_user.entries.find_by(id: params[:id])
+    redirect_to entries_path, notice: "Not authorized to edit this entry" if @entry.nil?
+  end
 
   private
-    def set_entry
-      @entry = Entry.find(params[:id])
-    end
 
-    def entry_params
-      params.permit(:meal_type, :calories, :fats, :proteins, :carbohydrates, :user_id)
-    end
+  def set_entry
+    @entry = Entry.find(params[:id])
+  end
+
+  def entry_params
+    params.permit(:meal_type, :calories, :fats, :proteins, :carbohydrates, :user_id)
+  end
+
+  def photo_params
+    params.require(:photo).permit(:title, :image)
+  end
 end
