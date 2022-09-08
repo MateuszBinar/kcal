@@ -5,6 +5,7 @@ class EntriesController < ApplicationController
 
   def index
     @entries = Entry.where("created_at >= ? AND user_id = ?", Date.today, current_user)
+    @entry = current_user.entries.build
   end
 
   def show
@@ -12,17 +13,15 @@ class EntriesController < ApplicationController
 
   def new
     @entry = current_user.entries.build
-    @entry.photos.build
   end
 
   def edit
   end
 
-  def create
+  def create  
     @entry = current_user.entries.build(entry_params)
     respond_to do |format|
       if @entry.save
-        @photo = @entry.create_photo(photo_params)
         format.html { redirect_to entries_path, notice: "Entry was successfully created." }
         format.json { render :show, status: :created, location: @entry }
       else
@@ -65,10 +64,6 @@ class EntriesController < ApplicationController
   end
 
   def entry_params
-    params.permit(:meal_type, :calories, :fats, :proteins, :carbohydrates, :user_id)
-  end
-
-  def photo_params
-    params.require(:photo).permit(:title, :image)
+    params.require(:entry).permit(:meal_type, :calories, :fats, :proteins, :carbohydrates, :user_id, photo_attributes: [:image, :title])
   end
 end
