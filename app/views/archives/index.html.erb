@@ -1,7 +1,11 @@
 
   <div class="">
     <% @entries.each do |day, entries| %>
-    <%= entries.first.created_at.to_date%>
+    <tr>
+      <%= entries.first.created_at.to_date%>
+      <td><%= link_to 'Download PDF', archives_week_path(:format => 'pdf', :beg=> entries.first.created_at.to_date.midnight, :end=> entries.first.created_at.to_date.midnight + 1.day)%></td>
+      
+    <tr>
     <table class="table">
       <thead>
         <tr>

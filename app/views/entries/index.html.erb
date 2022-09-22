@@ -30,6 +30,10 @@
         <td><%= link_to 'Show', entry %></td>
         <td><%= link_to 'Edit', edit_entry_path(entry) %></td>
         <td><%= link_to 'Destroy', entry, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= image_tag entry.photo.image_url, class: "entry-image" if entry.photo && entry.photo.image_data %></td>
+        <td><%= link_to 'Add comment', comment_path,  {:remote => true, 'data-toggle' =>  "modal", 'data-target' => '#modal-window'}  %></td>
+        <div id="modal-window" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"></div>
+
         <%end%>
       </tr>
     <% end %>
@@ -56,3 +60,4 @@
   <%=render 'entries/welcome' %>
 
 <%end%>
+
