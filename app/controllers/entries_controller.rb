@@ -5,6 +5,7 @@ class EntriesController < ApplicationController
 
   def index
     @entries = Entry.where("created_at >= ? AND user_id = ?", Date.today, current_user)
+    @entry = current_user ? current_user.entries.build : nil
   end
 
   def show
@@ -26,6 +27,7 @@ class EntriesController < ApplicationController
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @entry.errors, status: :unprocessable_entity }
+        flash.now[:notice] = "Fill out all inputs to create entry"
       end
     end
   end
@@ -55,6 +57,13 @@ def correct_user
   @entry = current_user.entries.find_by(id: params[:id])
   redirect_to entries_path, notice: "Not authorized to edit this entry" if @friend.nil?
 end
+
+  def comment
+    respond_to do |format|
+      format.html
+      format.js
+    end
+  end
 
   private
     def set_entry

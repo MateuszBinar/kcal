@@ -30,7 +30,7 @@
 </button>
 </div>
 <div class="card-body", style="text-align:center">
-  <%=@view_date.to_date  %>
+  <%= view_date.to_date %>
 
 </div>
 
@@ -47,7 +47,7 @@
   </thead>
 
   <tbody>
-    <% @entries.each do |entry| %>
+    <% entries.each do |entry| %>
       <tr>
         <td><%= entry.meal_type %></td>
         <td><%= entry.calories %></td>
@@ -61,9 +61,9 @@
       </tr>
     <% end %>
         <td><strong>Day summary</strong></td>
-        <td><%= @entries.pluck(:calories).sum %> kcal</td>
-        <td><%= @entries.pluck(:fats).sum %>g</td>
-        <td><%= @entries.pluck(:proteins).sum  %>g</td>
-        <td><%= @entries.pluck(:carbohydrates).sum  %>g</td>
+        <td><%= entries.pluck(:calories).sum %> kcal</td>
+        <td><%= entries.pluck(:fats).sum %>g</td>
+        <td><%= entries.pluck(:proteins).sum  %>g</td>
+        <td><%= entries.pluck(:carbohydrates).sum  %>g</td>
   </tbody>
 </table>

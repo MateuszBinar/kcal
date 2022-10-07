@@ -5,12 +5,20 @@ class ArchivesController < ApplicationController
   end
 
   def weeks
-    if (params[:beg] != nil)
-      @entries = Entry.where("created_at >= ? AND created_at < ?", (params[:beg]),( params[:end])) - Entry.where("user_id != ?", current_user)
-      @view_date = (params[:beg])
-    else
-      @entries = Entry.where("created_at >= ? AND created_at < ?  ", Date.current.midnight, Date.current.midnight + 1.day) - Entry.where("user_id != ?", current_user)
-      @view_date = Date.current.midnight
+    fetch_weeks = FetchWeeks.new
+    fetch_weeks.call(params) do |r|
+      r.success { |output| render :weeks, locals: { entries: output[:entries], view_date: output[:view_date] } }
+      r.failure { |output| render :weeks}
     end
   end
+
+  def week
+    fetch_weeks = FetchWeeks.new
+    fetch_weeks.call(params) do |r|
+      r.success { |output| render :week, locals: { entries: output[:entries], view_date: output[:view_date] } }
+      r.failure { |output| render :week}
+    end
+    # render :week, locals: { entries: Entry.where("user_id = ?", current_user) }
+  end
 end
+ 
